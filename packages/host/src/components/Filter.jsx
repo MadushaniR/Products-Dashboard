@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Select, TextField, Typography, Stack } from '@mui/material';
+import { Box, Button, Select, Input, Text, Stack } from '@chakra-ui/react';
 import { useState } from 'react';
 
 export default function Filter({ onFilter }) {
@@ -12,34 +12,28 @@ export default function Filter({ onFilter }) {
   };
 
   return (
-    <Box sx={{ border: '1px solid #ccc', padding: 2, borderRadius: 2, maxWidth: 400 }}>
-      <Typography variant="h6" gutterBottom>
+    <Box border="1px solid #ccc" p={4} borderRadius="md" maxW="400px">
+      <Text fontSize="lg" mb={4} fontWeight="bold">
         Filter Products
-      </Typography>
-      <Stack spacing={2}>
+      </Text>
+      <Stack spacing={3}>
         <Select
-          displayEmpty
+          placeholder="Select Category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          fullWidth
         >
-          <MenuItem value="">
-            <em>Select Category</em>
-          </MenuItem>
-          <MenuItem value="electronics">Electronics</MenuItem>
-          <MenuItem value="clothing">Clothing</MenuItem>
-          <MenuItem value="books">Books</MenuItem>
+          <option value="electronics">Electronics</option>
+          <option value="clothing">Clothing</option>
+          <option value="books">Books</option>
         </Select>
 
-        <TextField
-          label="Search by name"
-          variant="outlined"
+        <Input
+          placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          fullWidth
         />
 
-        <Button variant="contained" color="primary" onClick={handleFilter}>
+        <Button colorScheme="blue" onClick={handleFilter}>
           Apply Filter
         </Button>
       </Stack>
