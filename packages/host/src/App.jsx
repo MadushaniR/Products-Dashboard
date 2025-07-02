@@ -37,28 +37,53 @@ export default function App() {
       });
   }, []);
 
+  // Filter products by selected category
   const filteredProducts = selectedCategory
     ? data.filter((p) => p.category === selectedCategory)
     : [];
 
-  const pieData = categories.map((c) => ({
-    name: c,
-    value: data.filter((p) => p.category === c).length,
-  }));
+  // Compute pie chart data dynamically based on selection
+  let pieData;
 
+  if (!selectedCategory) {
+    // Show overall category distribution
+    pieData = categories.map((c) => ({
+      name: c,
+      value: data.filter((p) => p.category === c).length,
+    }));
+  } else if (selectedCategory && selectedProducts.length === 0) {
+    // Show single slice for selected category (all products count)
+    pieData = [
+      {
+        name: selectedCategory,
+        value: filteredProducts.length,
+      },
+    ];
+  } else {
+    // Show slices for selected products, sized by price
+    pieData = selectedProducts.map((title) => {
+      const product = data.find((p) => p.title === title);
+      return {
+        name: title,
+        value: product ? product.price : 1,
+      };
+    });
+  }
+
+  // Column chart data for selected products (price)
   const columnData = selectedProducts.map((title) => ({
     name: title,
     value: data.find((d) => d.title === title)?.price || 0,
   }));
 
-  // Clear entire filter
+  // Clear all filters
   const resetFilters = () => {
     setSelectedCategory("");
     setSelectedProducts([]);
     setShowColumn(false);
   };
 
-  // Clear category selection (also resets products)
+  // Clear category only (also resets products)
   const clearCategory = () => {
     setSelectedCategory("");
     setSelectedProducts([]);
