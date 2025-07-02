@@ -10,7 +10,11 @@ import {
   Checkbox,
   CheckboxGroup,
   VStack,
+  HStack,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import ProductPieChart from "remoteApp/ProductPieChart";
 import ColumnChart from "remoteApp/ColumnChart";
 
@@ -47,8 +51,22 @@ export default function App() {
     value: data.find((d) => d.title === title)?.price || 0,
   }));
 
+  // Clear entire filter
   const resetFilters = () => {
     setSelectedCategory("");
+    setSelectedProducts([]);
+    setShowColumn(false);
+  };
+
+  // Clear category selection (also resets products)
+  const clearCategory = () => {
+    setSelectedCategory("");
+    setSelectedProducts([]);
+    setShowColumn(false);
+  };
+
+  // Clear selected products only
+  const clearProducts = () => {
     setSelectedProducts([]);
     setShowColumn(false);
   };
@@ -77,11 +95,24 @@ export default function App() {
           </Button>
 
           <Stack spacing={4} flex="1" overflow="auto">
-            {/* Category Selector with label */}
+            {/* Category Selector with label + clear button */}
             <Box>
-              <Text mb="1" fontWeight="semibold" color="gray.700">
-                Select Category
-              </Text>
+              <HStack justifyContent="space-between" mb="1">
+                <Text fontWeight="semibold" color="gray.700">
+                  Select Category
+                </Text>
+                {selectedCategory && (
+                  <Tooltip label="Clear category">
+                    <IconButton
+                      size="sm"
+                      aria-label="Clear category"
+                      icon={<CloseIcon />}
+                      onClick={clearCategory}
+                      variant="ghost"
+                    />
+                  </Tooltip>
+                )}
+              </HStack>
               <Select
                 placeholder="Select Category"
                 value={selectedCategory}
@@ -90,7 +121,7 @@ export default function App() {
                   setSelectedProducts([]);
                   setShowColumn(false);
                 }}
-                height="40px" // fixed height for category select
+                height="40px"
               >
                 {categories.map((c) => (
                   <option key={c} value={c}>
@@ -100,18 +131,31 @@ export default function App() {
               </Select>
             </Box>
 
-            {/* Product Selector with label */}
+            {/* Product Selector with label + clear button */}
             <Box>
-              <Text mb="1" fontWeight="semibold" color="gray.700">
-                Select Product
-              </Text>
+              <HStack justifyContent="space-between" mb="1">
+                <Text fontWeight="semibold" color="gray.700">
+                  Select Product
+                </Text>
+                {selectedProducts.length > 0 && (
+                  <Tooltip label="Clear selected products">
+                    <IconButton
+                      size="sm"
+                      aria-label="Clear selected products"
+                      icon={<CloseIcon />}
+                      onClick={clearProducts}
+                      variant="ghost"
+                      isDisabled={!selectedCategory}
+                    />
+                  </Tooltip>
+                )}
+              </HStack>
               <Box
                 border="1px solid"
                 borderColor="gray.300"
                 borderRadius="md"
                 p="2"
                 bg={selectedCategory ? "white" : "gray.100"}
-                // Conditional height styles:
                 height={selectedCategory ? "auto" : "40px"}
                 maxHeight={selectedCategory ? "200px" : "40px"}
                 overflowY={selectedCategory ? "auto" : "hidden"}
