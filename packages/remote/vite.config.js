@@ -11,7 +11,8 @@ export default defineConfig({
       exposes: {
         './Button': './src/components/Button',
         './MyProvider': './src/MyContext',
-          './ProductPieChart': './src/components/PieChart'
+          './ProductPieChart': './src/components/PieChart',
+          './ColumnChart': './src/components/ColumnChart',
       },
       shared: ['react', 'react-dom'],
     }),

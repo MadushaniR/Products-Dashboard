@@ -2,10 +2,8 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384', '#36A2EB'
 
 export default function ProductPieChart({ data }) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
-
   let cumulativePercent = 0;
 
-  // Function to convert percent to SVG Arc coordinates
   const getCoordinatesForPercent = (percent) => {
     const x = Math.cos(2 * Math.PI * percent);
     const y = Math.sin(2 * Math.PI * percent);
