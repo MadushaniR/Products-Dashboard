@@ -1,38 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
 import Button from 'remoteApp/Button';
 import { useSharedState } from 'remoteApp/MyProvider';
+import ProductPieChart from 'remoteApp/ProductPieChart';
+import Filter from './components/Filter';
+
+const sampleData = [
+  { name: 'Electronics', value: 400 },
+  { name: 'Clothing', value: 300 },
+  { name: 'Books', value: 200 },
+  { name: 'Home', value: 100 },
+];
+
 function App() {
-  // const [count, setCount] = useState(0)
   const { count, increment } = useSharedState();
+
+  const handleFilter = (filters) => {
+    console.log('Applied Filters:', filters);
+    // You can implement actual filtering logic
+  };
+
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
+      <h1>MicroFrontend Dashboard</h1>
       <button onClick={increment}>Count: {count}</button>
-      <h1>Vite + React</h1>
-      <div className="card">
-        {/* <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button> */}
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
       <Button />
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <h2>Product Categories</h2>
+      <ProductPieChart data={sampleData} />
+
+      <h2>Filter Products</h2>
+      <Filter onFilter={handleFilter} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
