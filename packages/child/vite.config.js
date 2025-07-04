@@ -6,14 +6,11 @@ export default defineConfig({
   plugins: [
     react(),
     federation({
-      name: 'remote_app',
+      name: 'child',
       filename: 'remoteEntry.js',
       exposes: {
-        './Button': './src/components/Button.jsx',
-        './MyProvider': './src/MyContext.jsx',
         './ProductPieChart': './src/components/PieChart.jsx',
         './ColumnChart': './src/components/ColumnChart.jsx',
-        './TextTest': './src/components/TextTest.tsx',
       },
       shared: {
         react: { singleton: true, requiredVersion: false },

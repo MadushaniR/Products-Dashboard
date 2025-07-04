@@ -1,5 +1,5 @@
 import './App.css'
-import  TextTest  from './components/TextTest'
+
 
 function App() {
 
@@ -7,7 +7,7 @@ function App() {
   return (
 
     <>
-        <TextTest />
+   
      
     </>
   )

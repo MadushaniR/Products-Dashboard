@@ -17,8 +17,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import ProductPieChart from "remoteApp/ProductPieChart";
 import ColumnChart from "remoteApp/ColumnChart";
-import TextTest from "remoteApp/TextTest"; // Importing Text component from remote app
-// import ErrorBoundary from "../ErrorBoundary";
+
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -102,9 +101,7 @@ export default function App() {
 
   return (
     <ChakraProvider>
-          {/* <ErrorBoundary fallback={<div>Failed to load remote component.</div>}> */}
-      <TextTest />
-    {/* </ErrorBoundary> */}
+
       <Box display="flex" p="4" minHeight="100vh" bg="#f0f4f8">
         {/* Sidebar Filters */}
         <Box
