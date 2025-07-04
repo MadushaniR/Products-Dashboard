@@ -9,12 +9,16 @@ export default defineConfig({
       name: 'remote_app',
       filename: 'remoteEntry.js',
       exposes: {
-        './Button': './src/components/Button',
-        './MyProvider': './src/MyContext',
-          './ProductPieChart': './src/components/PieChart',
-          './ColumnChart': './src/components/ColumnChart',
+        './Button': './src/components/Button.jsx',
+        './MyProvider': './src/MyContext.jsx',
+        './ProductPieChart': './src/components/PieChart.jsx',
+        './ColumnChart': './src/components/ColumnChart.jsx',
+        './TextTest': './src/components/TextTest.tsx',
       },
-      shared: ['react', 'react-dom'],
+      shared: {
+        react: { singleton: true, requiredVersion: false },
+        'react-dom': { singleton: true, requiredVersion: false },
+      },
     }),
     {
       name: 'vite-plugin-notify-host-on-rebuild',
@@ -24,7 +28,7 @@ export default defineConfig({
       async buildEnd(error) {
         if (!error) {
           try {
-            await fetch('http://localhost:5000/__fullReload');
+            await fetch('http://localhost:5002/__fullReload');
           } catch (e) {
             console.log(e);
           }
