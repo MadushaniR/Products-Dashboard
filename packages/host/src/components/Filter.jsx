@@ -15,7 +15,7 @@ export default function FilterPanel({
       <Text fontSize="2xl" mb={4}>Filters</Text>
       <Select placeholder="Select Category" value={category} onChange={(e) => {
         setCategory(e.target.value);
-        setSelectedProducts([]); // Reset products on category change
+        setSelectedProducts([]); 
       }}>
         {categories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
       </Select>
