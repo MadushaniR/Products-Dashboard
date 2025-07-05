@@ -9,8 +9,6 @@ export default defineConfig({
       name: 'remote_app',
       filename: 'remoteEntry.js',
       exposes: {
-        './Button': './src/components/Button',
-        './MyProvider': './src/MyContext',
           './ProductPieChart': './src/components/PieChart',
           './ColumnChart': './src/components/ColumnChart',
       },
