@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Select,
-  Text,
-  VStack,
-  Checkbox,
-  CheckboxGroup,
-} from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setCategory,
@@ -16,16 +8,15 @@ import {
   setHasRunReport,
   setSelectedProductsToRender,
 } from '../../features/product/productSlice';
+import CategoryFilter from '../molecules/CategoryFilter';
+import ProductCheckboxGroup from '../molecules/ProductCheckboxGroup';
+import PrimaryButton from '../atoms/PrimaryButton';
+import OutlineButton from '../atoms/OutlineButton';
 
 export default function FilterPanel() {
   const dispatch = useDispatch();
-  const {
-    data,
-    categories,
-    selectedCategory,
-    selectedProducts,
-    hasRunReport,
-  } = useSelector((state) => state.product);
+  const { data, categories, selectedCategory, selectedProducts, hasRunReport } =
+    useSelector((state) => state.product);
 
   const filteredProducts = selectedCategory
     ? data.filter((p) => p.category === selectedCategory)
@@ -42,71 +33,37 @@ export default function FilterPanel() {
 
   return (
     <Box p={4} bg="white" boxShadow="md" borderRadius="md" w="300px">
-      <Text fontSize="xl" mb={4}>Filter Panel</Text>
-
-      <Select
-        placeholder="Select Category"
+      <CategoryFilter
         value={selectedCategory}
         onChange={(e) => dispatch(setCategory(e.target.value))}
-        mb={2}
-      >
-        {categories.map((c) => (
-          <option key={c} value={c}>{c}</option>
-        ))}
-      </Select>
+        onClear={() => dispatch(setCategory(''))}
+        categories={categories}
+      />
 
-      <Button
-        size="sm"
-        mb={4}
-        variant="link"
-        onClick={() => dispatch(setCategory(''))}
-        isDisabled={!selectedCategory}
-      >
-        Clear Category
-      </Button>
-
-      <CheckboxGroup
-        value={selectedProducts}
+      <ProductCheckboxGroup
+        products={filteredProducts}
+        selected={selectedProducts}
         onChange={(values) => dispatch(setSelectedProducts(values))}
-      >
-        <VStack align="start" spacing={2} mb={2}>
-          {selectedCategory &&
-            filteredProducts.map((p) => (
-              <Checkbox key={p.id} value={p.title}>
-                {p.title}
-              </Checkbox>
-            ))}
-        </VStack>
-      </CheckboxGroup>
+      />
 
-      <Button
-        size="sm"
-        mb={4}
-        variant="link"
-        onClick={() => dispatch(setSelectedProducts([]))}
-        isDisabled={selectedProducts.length === 0}
-      >
-        Clear Products
-      </Button>
+      <Box mb={2}>
+        <Button
+          size="sm"
+          variant="link"
+          onClick={() => dispatch(setSelectedProducts([]))}
+          isDisabled={selectedProducts.length === 0}
+        >
+          Clear Products
+        </Button>
+      </Box>
 
-      <Button
-        colorScheme="teal"
-        w="100%"
-        onClick={handleRunReport}
-        isDisabled={isRunDisabled}
-      >
+      <PrimaryButton onClick={handleRunReport} isDisabled={isRunDisabled}>
         Run Report
-      </Button>
+      </PrimaryButton>
 
-      <Button
-        mt={2}
-        variant="outline"
-        colorScheme="red"
-        w="100%"
-        onClick={() => dispatch(resetFilters())}
-      >
+      <OutlineButton mt={2} onClick={() => dispatch(resetFilters())}>
         Reset All
-      </Button>
+      </OutlineButton>
     </Box>
   );
 }

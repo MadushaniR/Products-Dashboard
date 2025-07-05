@@ -1,26 +1,6 @@
-import { Box, HStack, Text } from '@chakra-ui/react';
-import ColorBox from '../components/atoms/ColorBox';
-
-const COLORS = [
-  '#22543D',
-  '#276749',
-  '#2C7A7B',
-  '#319795',
-  '#38B2AC',
-  '#4FD1C5',
-  '#63E6BE',
-  '#81E6D9',
-  '#B2F5EA',
-  '#C6F6D5',
-  '#D6FCE9',
-  '#E6FFFA',
-  '#F0FFF4',
-  '#EDFDFD',
-  '#E6FFFA'
-];
-
-
-
+import { Box, HStack } from '@chakra-ui/react';
+import LegendItem from '../molecules/LegendItem';
+import COLORS from '../constants/chartColors';
 
 const RADIUS = 1;
 
@@ -71,7 +51,6 @@ export default function ProductPieChart({ data }) {
               const slicePercent = slice.value / total;
               const midPercent = labelCumulative + slicePercent / 2;
               labelCumulative += slicePercent;
-
               const angle = 2 * Math.PI * midPercent;
               const labelX = 0.6 * Math.cos(angle - Math.PI / 2);
               const labelY = 0.6 * Math.sin(angle - Math.PI / 2);
@@ -97,10 +76,7 @@ export default function ProductPieChart({ data }) {
 
       <Box>
         {data.map((slice, index) => (
-          <HStack key={index} align="center" mb="2">
-            <ColorBox color={COLORS[index % COLORS.length]} />
-            <Text fontSize="sm">{slice.name}</Text>
-          </HStack>
+          <LegendItem key={index} color={COLORS[index % COLORS.length]} label={slice.name} />
         ))}
       </Box>
     </HStack>
