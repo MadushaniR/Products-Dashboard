@@ -9,8 +9,8 @@ export default defineConfig({
       name: 'remote_app',
       filename: 'remoteEntry.js',
       exposes: {
-          './ProductPieChart': './src/components/PieChart',
-          './ColumnChart': './src/components/ColumnChart',
+          './ProductPieChart': './src/organisms/PieChart',
+          './ColumnChart': './src/organisms/ColumnChart',
       },
       shared: ['react', 'react-dom'],
     }),

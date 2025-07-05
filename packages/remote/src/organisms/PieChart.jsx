@@ -1,4 +1,6 @@
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, Text } from '@chakra-ui/react';
+import ColorBox from '../components/atoms/ColorBox';
+
 
 const COLORS = ['#4f81bd', '#c0504d', '#9bbb59', '#23bacc'];
 const RADIUS = 1;
@@ -74,16 +76,10 @@ export default function ProductPieChart({ data }) {
         </svg>
       </Box>
 
-      {/* Chakra UI Legend */}
       <Box>
         {data.map((slice, index) => (
           <HStack key={index} align="center" mb="2">
-            <Box
-              w="16px"
-              h="16px"
-              bg={COLORS[index % COLORS.length]}
-              borderRadius="md"
-            />
+            <ColorBox color={COLORS[index % COLORS.length]} />
             <Text fontSize="sm">{slice.name}</Text>
           </HStack>
         ))}
