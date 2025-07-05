@@ -54,7 +54,7 @@ export default function Dashboard() {
         {showColumn && (
           <>
             <Text mt={6} mb={2}>Selected Product Prices</Text>
-            <ColumnChart data={columnData} />
+            <ColumnChart data={columnData} category={selectedCategory} />
           </>
         )}
       </Box>

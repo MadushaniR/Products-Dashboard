@@ -1,8 +1,27 @@
 import { Box, HStack, Text } from '@chakra-ui/react';
 import ColorBox from '../components/atoms/ColorBox';
 
+const COLORS = [
+  '#22543D',
+  '#276749',
+  '#2C7A7B',
+  '#319795',
+  '#38B2AC',
+  '#4FD1C5',
+  '#63E6BE',
+  '#81E6D9',
+  '#B2F5EA',
+  '#C6F6D5',
+  '#D6FCE9',
+  '#E6FFFA',
+  '#F0FFF4',
+  '#EDFDFD',
+  '#E6FFFA'
+];
 
-const COLORS = ['#4f81bd', '#c0504d', '#9bbb59', '#23bacc'];
+
+
+
 const RADIUS = 1;
 
 export default function ProductPieChart({ data }) {
