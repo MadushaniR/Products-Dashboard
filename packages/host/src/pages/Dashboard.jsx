@@ -14,12 +14,15 @@ export default function Dashboard() {
     selectedProductsToRender,
   } = useSelector((state) => state.product);
 
+  // Keep track of previous category to detect changes
   const prevCategoryRef = useRef();
 
+  // Fetch products on component mount
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  // When selected category changes, hide columns (reset view)
   useEffect(() => {
     if (prevCategoryRef.current && prevCategoryRef.current !== selectedCategory) {
       dispatch(toggleShowColumn(false));
@@ -27,8 +30,10 @@ export default function Dashboard() {
     prevCategoryRef.current = selectedCategory;
   }, [selectedCategory, dispatch]);
 
+  // Prepare pie chart data
   const pieData = (() => {
     if (selectedProducts.length > 0) {
+      // Show pie slices for selected products with assigned colors
       return selectedProducts.map((id, index) => {
         const product = data.find((p) => p.id.toString() === id);
         return {
@@ -39,7 +44,7 @@ export default function Dashboard() {
       });
     }
 
-    // Default: category breakdown
+    // Default pie chart: count of products per category
     const map = new Map();
     data.forEach((item) => {
       map.set(item.category, (map.get(item.category) || 0) + 1);
@@ -52,10 +57,12 @@ export default function Dashboard() {
     }));
   })();
 
+  // Determine color for selected category
   const selectedCategoryColor = selectedCategory
     ? COLORS[categories.indexOf(selectedCategory) % COLORS.length]
     : null;
 
+  // Prepare column chart data for selected products to render
   const columnData = selectedProductsToRender.map((id) => {
     const p = data.find((d) => d.id.toString() === id);
     return {

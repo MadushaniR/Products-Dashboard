@@ -3,45 +3,60 @@ import { createSlice } from '@reduxjs/toolkit';
 const productSlice = createSlice({
   name: 'product',
   initialState: {
-    data: [],
-    categories: [],
-    selectedCategory: '',
-    selectedProducts: [],         
-    selectedProductsToRender: [],   
-    showColumn: false,
-    hasRunReport: false,
+    data: [],                    // All product data fetched from API
+    categories: [],              // Unique product categories derived from data
+    selectedCategory: '',        // Currently selected category filter
+    selectedProducts: [],        // Products selected by user for filtering
+    selectedProductsToRender: [],// Products to display in report after running
+    showColumn: false,           // Controls whether product columns are visible
+    hasRunReport: false,         // Flag indicating if report has been run
   },
   reducers: {
+    // Action to trigger fetching products (handled by saga)
     fetchProducts: () => {},
-    setProducts: (s, a) => {
-      s.data = a.payload;
-      s.categories = [...new Set(a.payload.map(p => p.category))];
+
+    // Store fetched products and extract unique categories
+    setProducts: (state, action) => {
+      state.data = action.payload;
+      state.categories = [...new Set(action.payload.map(p => p.category))];
     },
-    setCategory: (s, a) => {
-      s.selectedCategory = a.payload;
-      s.selectedProducts = [];
-      s.hasRunReport = false;
-      s.showColumn = false;
+
+    // Set selected category, clear selected products and reset report flags
+    setCategory: (state, action) => {
+      state.selectedCategory = action.payload;
+      state.selectedProducts = [];
+      state.hasRunReport = false;
+      state.showColumn = false;
     },
-    setSelectedProducts: (s, a) => {
-      s.selectedProducts = a.payload;
-      s.hasRunReport = false;
+
+    // Set selected products and reset report flag
+    setSelectedProducts: (state, action) => {
+      state.selectedProducts = action.payload;
+      state.hasRunReport = false;
     },
-    setSelectedProductsToRender: (s, a) => {
-      s.selectedProductsToRender = a.payload;
+
+    // Set products to render after running report
+    setSelectedProductsToRender: (state, action) => {
+      state.selectedProductsToRender = action.payload;
     },
-    toggleShowColumn: (s, a) => {
-      s.showColumn = a.payload;
+
+    // Show or hide product columns
+    toggleShowColumn: (state, action) => {
+      state.showColumn = action.payload;
     },
-    resetFilters: (s) => {
-      s.selectedCategory = '';
-      s.selectedProducts = [];
-      s.selectedProductsToRender = [];
-      s.showColumn = false;
-      s.hasRunReport = false;
+
+    // Reset all filters and report-related flags to initial state
+    resetFilters: (state) => {
+      state.selectedCategory = '';
+      state.selectedProducts = [];
+      state.selectedProductsToRender = [];
+      state.showColumn = false;
+      state.hasRunReport = false;
     },
-    setHasRunReport: (s, a) => {
-      s.hasRunReport = a.payload;
+
+    // Set whether the report has been run
+    setHasRunReport: (state, action) => {
+      state.hasRunReport = action.payload;
     },
   },
 });
@@ -56,4 +71,5 @@ export const {
   resetFilters,
   setHasRunReport,
 } = productSlice.actions;
+
 export default productSlice.reducer;
