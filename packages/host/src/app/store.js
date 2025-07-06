@@ -11,5 +11,6 @@ const store = configureStore({
     getDefault({ thunk: false }).concat(sagaMiddleware),
 });
 
+// Start running the root saga
 sagaMiddleware.run(rootSaga);
 export default store;

@@ -13,9 +13,11 @@ export default function ProductPieChart({ data }) {
     );
   }
 
+  // Calculate total sum of values to determine slice percentages
   const total = data.reduce((sum, item) => sum + item.value, 0);
   let cumulativePercent = 0;
 
+  // Get x,y coordinates on the unit circle for a given percentage of the circle
   const getCoordinatesForPercent = (percent) => {
     const x = Math.cos(2 * Math.PI * percent);
     const y = Math.sin(2 * Math.PI * percent);
@@ -26,7 +28,7 @@ export default function ProductPieChart({ data }) {
     <HStack align="center" spacing={8} flexWrap="wrap">
       <Box>
         <svg width="300" height="300" viewBox="-1 -1 2 2">
-          <g transform="rotate(-90)">
+          <g transform="rotate(-90)"> {/* Rotate to start pie chart from top */}
             {data.map((slice, index) => {
               const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
               const slicePercent = slice.value / total;
@@ -34,6 +36,7 @@ export default function ProductPieChart({ data }) {
               const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
               const largeArcFlag = slicePercent > 0.5 ? 1 : 0;
 
+              // Define SVG path for the slice arc
               const pathData = `
                 M ${startX} ${startY}
                 A ${RADIUS} ${RADIUS} 0 ${largeArcFlag} 1 ${endX} ${endY}
@@ -52,7 +55,7 @@ export default function ProductPieChart({ data }) {
             })}
           </g>
 
-          {/* Labels */}
+          {/* Render percentage labels at slice midpoints */}
           {(() => {
             let labelCumulative = 0;
             return data.map((slice, index) => {
@@ -82,6 +85,7 @@ export default function ProductPieChart({ data }) {
         </svg>
       </Box>
 
+      {/* Legend showing color and label for each slice */}
       <Box>
         {data.map((slice, index) => (
           <LegendItem
