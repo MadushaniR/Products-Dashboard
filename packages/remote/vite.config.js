@@ -11,6 +11,7 @@ export default defineConfig({
       exposes: {
           './ProductPieChart': './src/components/organisms/PieChart',
           './ColumnChart': './src/components/organisms/ColumnChart',
+          './constants/chartColors': './src/components/constants/chartColors.js',
       },
       shared: ['react', 'react-dom'],
     }),

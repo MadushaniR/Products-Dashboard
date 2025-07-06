@@ -1,15 +1,44 @@
-import { Checkbox, CheckboxGroup, VStack } from '@chakra-ui/react';
+import {
+  Checkbox,
+  CheckboxGroup,
+  VStack,
+  FormControl,
+  Flex,
+} from '@chakra-ui/react';
+import OutlineButton from '../atoms/OutlineButton';
+import HeadingText from '../atoms/HeadingText';
 
-export default function ProductCheckboxGroup({ products, selected, onChange }) {
+export default function ProductCheckboxGroup({
+  products,
+  selected,
+  onChange,
+  onClear,
+  show,
+}) {
+  if (!show) return null;
+
   return (
-    <CheckboxGroup value={selected} onChange={onChange}>
-      <VStack align="start" spacing={2} mb={2}>
-        {products.map((p) => (
-          <Checkbox key={p.id} value={p.title}>
-            {p.title}
-          </Checkbox>
-        ))}
-      </VStack>
-    </CheckboxGroup>
+    <FormControl mb={4}>
+      <Flex justify="space-between" align="center" mb={1}>
+        <HeadingText as="formlabel" mb={0} fontSize="md" >
+          Please Select Product(s)
+        </HeadingText>
+        {selected.length > 0 && (
+          <OutlineButton size="sm" onClick={onClear} w="auto" minW="75px" px={3}>
+            Clear
+          </OutlineButton>
+        )}
+      </Flex>
+
+      <CheckboxGroup value={selected} onChange={onChange}>
+        <VStack align="start" spacing={2} mb={2}>
+          {products.map((p) => (
+            <Checkbox key={p.id} value={p.title} colorScheme="teal">
+              {p.title}
+            </Checkbox>
+          ))}
+        </VStack>
+      </CheckboxGroup>
+    </FormControl>
   );
 }

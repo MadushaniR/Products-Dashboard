@@ -1,13 +1,22 @@
-import { Button, Box } from '@chakra-ui/react';
+import { Flex, FormControl } from '@chakra-ui/react';
 import CategorySelect from '../atoms/CategorySelect';
+import OutlineButton from '../atoms/OutlineButton';
+import HeadingText from '../atoms/HeadingText';
 
-export default function CategoryFilter({ value, onChange, onClear, categories }) {
+export default function CategoryFilter({ value, onChange, categories, onClear }) {
   return (
-    <Box mb={4}>
+    <FormControl mb={4}>
+      <Flex justify="space-between" align="center" mb={1}>
+        <HeadingText as="formlabel" mb={0} fontSize="md" >
+          Please Select a Category
+        </HeadingText>
+        {value && (
+          <OutlineButton size="sm" onClick={onClear} w="auto" minW="75px" px={3}>
+            Clear
+          </OutlineButton>
+        )}
+      </Flex>
       <CategorySelect value={value} onChange={onChange} categories={categories} />
-      <Button size="sm" variant="link" onClick={onClear} isDisabled={!value}>
-        Clear Category
-      </Button>
-    </Box>
+    </FormControl>
   );
 }

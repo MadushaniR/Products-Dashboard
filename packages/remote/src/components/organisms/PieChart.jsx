@@ -44,7 +44,7 @@ export default function ProductPieChart({ data }) {
             })}
           </g>
 
-          {/* Labels */}
+          {/* Labels - always show, smaller */}
           {(() => {
             let labelCumulative = 0;
             return data.map((slice, index) => {
@@ -52,23 +52,23 @@ export default function ProductPieChart({ data }) {
               const midPercent = labelCumulative + slicePercent / 2;
               labelCumulative += slicePercent;
               const angle = 2 * Math.PI * midPercent;
-              const labelX = 0.6 * Math.cos(angle - Math.PI / 2);
-              const labelY = 0.6 * Math.sin(angle - Math.PI / 2);
+              const labelX = 0.5 * Math.cos(angle - Math.PI / 2); // closer to center
+              const labelY = 0.5 * Math.sin(angle - Math.PI / 2);
               const percentage = `${(slicePercent * 100).toFixed(1)}%`;
 
-              return slicePercent > 0.05 ? (
+              return (
                 <text
                   key={`label-${index}`}
                   x={labelX}
                   y={labelY}
                   fill="white"
-                  fontSize="0.15"
+                  fontSize="0.08" // smaller
                   textAnchor="middle"
                   alignmentBaseline="middle"
                 >
                   {percentage}
                 </text>
-              ) : null;
+              );
             });
           })()}
         </svg>
@@ -76,7 +76,11 @@ export default function ProductPieChart({ data }) {
 
       <Box>
         {data.map((slice, index) => (
-          <LegendItem key={index} color={COLORS[index % COLORS.length]} label={slice.name} />
+          <LegendItem
+            key={index}
+            color={COLORS[index % COLORS.length]}
+            label={slice.name}
+          />
         ))}
       </Box>
     </HStack>

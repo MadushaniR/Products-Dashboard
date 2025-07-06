@@ -11,8 +11,9 @@ const productSlice = createSlice({
     showColumn: false,
     hasRunReport: false,
   },
+  
   reducers: {
-    fetchProducts: () => {},
+    fetchProducts: () => { },
     setProducts: (state, action) => {
       state.data = action.payload;
       state.categories = [...new Set(action.payload.map(p => p.category))];
