@@ -10,6 +10,7 @@ export default function Dashboard() {
     data,
     categories,
     selectedCategory,
+    selectedProducts,
     selectedProductsToRender,
   } = useSelector((state) => state.product);
 
@@ -21,27 +22,54 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (prevCategoryRef.current && prevCategoryRef.current !== selectedCategory) {
-      // Hide column chart on category change
       dispatch(toggleShowColumn(false));
     }
     prevCategoryRef.current = selectedCategory;
   }, [selectedCategory, dispatch]);
 
-  const pieData = categories.map((c, i) => ({
-    name: c,
-    value: data.filter((p) => p.category === c).length,
-    color: COLORS[i % COLORS.length],
-  }));
+  const pieData = (() => {
+    if (selectedProducts.length > 0) {
+      return selectedProducts.map((id, index) => {
+        const product = data.find((p) => p.id.toString() === id);
+        return {
+          name: product?.title || 'Unknown',
+          value: product?.price || 0,
+          color: COLORS[index % COLORS.length],
+        };
+      });
+    }
+
+    // Default: category breakdown
+    const map = new Map();
+    data.forEach((item) => {
+      map.set(item.category, (map.get(item.category) || 0) + 1);
+    });
+
+    return Array.from(map, ([name, value], index) => ({
+      name,
+      value,
+      color: COLORS[index % COLORS.length],
+    }));
+  })();
 
   const selectedCategoryColor = selectedCategory
     ? COLORS[categories.indexOf(selectedCategory) % COLORS.length]
     : null;
 
-  const columnData = selectedProductsToRender.map((title) => ({
-    name: title,
-    value: data.find((d) => d.title === title)?.price || 0,
-    color: selectedCategoryColor,
-  }));
+  const columnData = selectedProductsToRender.map((id) => {
+    const p = data.find((d) => d.id.toString() === id);
+    return {
+      name: p?.title || 'Unknown',
+      value: p?.price || 0,
+      color: selectedCategoryColor,
+    };
+  });
 
-  return <DashboardTemplate pieData={pieData} columnData={columnData} />;
+  return (
+    <DashboardTemplate
+      pieData={pieData}
+      columnData={columnData}
+      selectedCategoryColor={selectedCategoryColor}
+    />
+  );
 }

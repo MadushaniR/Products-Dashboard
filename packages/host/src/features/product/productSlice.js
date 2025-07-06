@@ -6,42 +6,42 @@ const productSlice = createSlice({
     data: [],
     categories: [],
     selectedCategory: '',
-    selectedProducts: [],
-    selectedProductsToRender: [],
+    selectedProducts: [],         
+    selectedProductsToRender: [],   
     showColumn: false,
     hasRunReport: false,
   },
-  
   reducers: {
-    fetchProducts: () => { },
-    setProducts: (state, action) => {
-      state.data = action.payload;
-      state.categories = [...new Set(action.payload.map(p => p.category))];
+    fetchProducts: () => {},
+    setProducts: (s, a) => {
+      s.data = a.payload;
+      s.categories = [...new Set(a.payload.map(p => p.category))];
     },
-    setCategory: (state, action) => {
-      state.selectedCategory = action.payload;
-      state.selectedProducts = [];
-      state.hasRunReport = false;
+    setCategory: (s, a) => {
+      s.selectedCategory = a.payload;
+      s.selectedProducts = [];
+      s.hasRunReport = false;
+      s.showColumn = false;
     },
-    setSelectedProducts: (state, action) => {
-      state.selectedProducts = action.payload;
-      state.hasRunReport = false;
+    setSelectedProducts: (s, a) => {
+      s.selectedProducts = a.payload;
+      s.hasRunReport = false;
     },
-    setSelectedProductsToRender: (state, action) => {
-      state.selectedProductsToRender = action.payload;
+    setSelectedProductsToRender: (s, a) => {
+      s.selectedProductsToRender = a.payload;
     },
-    toggleShowColumn: (state, action) => {
-      state.showColumn = action.payload;
+    toggleShowColumn: (s, a) => {
+      s.showColumn = a.payload;
     },
-    resetFilters: (state) => {
-      state.selectedCategory = '';
-      state.selectedProducts = [];
-      state.selectedProductsToRender = [];
-      state.showColumn = false;
-      state.hasRunReport = false;
+    resetFilters: (s) => {
+      s.selectedCategory = '';
+      s.selectedProducts = [];
+      s.selectedProductsToRender = [];
+      s.showColumn = false;
+      s.hasRunReport = false;
     },
-    setHasRunReport: (state, action) => {
-      state.hasRunReport = action.payload;
+    setHasRunReport: (s, a) => {
+      s.hasRunReport = a.payload;
     },
   },
 });
@@ -56,5 +56,4 @@ export const {
   resetFilters,
   setHasRunReport,
 } = productSlice.actions;
-
 export default productSlice.reducer;

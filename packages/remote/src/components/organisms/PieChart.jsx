@@ -1,10 +1,18 @@
-import { Box, HStack } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
 import LegendItem from '../molecules/LegendItem';
 import COLORS from '../constants/chartColors';
 
 const RADIUS = 1;
 
 export default function ProductPieChart({ data }) {
+  if (data.length === 0) {
+    return (
+      <Text textAlign="center" color="gray.500">
+        No data to display.
+      </Text>
+    );
+  }
+
   const total = data.reduce((sum, item) => sum + item.value, 0);
   let cumulativePercent = 0;
 
@@ -36,7 +44,7 @@ export default function ProductPieChart({ data }) {
                 <path
                   key={index}
                   d={pathData}
-                  fill={COLORS[index % COLORS.length]}
+                  fill={slice.color || COLORS[index % COLORS.length]}
                   stroke="#fff"
                   strokeWidth="0.01"
                 />
@@ -44,7 +52,7 @@ export default function ProductPieChart({ data }) {
             })}
           </g>
 
-          {/* Labels - always show, smaller */}
+          {/* Labels */}
           {(() => {
             let labelCumulative = 0;
             return data.map((slice, index) => {
@@ -52,7 +60,7 @@ export default function ProductPieChart({ data }) {
               const midPercent = labelCumulative + slicePercent / 2;
               labelCumulative += slicePercent;
               const angle = 2 * Math.PI * midPercent;
-              const labelX = 0.5 * Math.cos(angle - Math.PI / 2); // closer to center
+              const labelX = 0.5 * Math.cos(angle - Math.PI / 2);
               const labelY = 0.5 * Math.sin(angle - Math.PI / 2);
               const percentage = `${(slicePercent * 100).toFixed(1)}%`;
 
@@ -62,7 +70,7 @@ export default function ProductPieChart({ data }) {
                   x={labelX}
                   y={labelY}
                   fill="white"
-                  fontSize="0.08" // smaller
+                  fontSize="0.08"
                   textAnchor="middle"
                   alignmentBaseline="middle"
                 >
@@ -78,7 +86,7 @@ export default function ProductPieChart({ data }) {
         {data.map((slice, index) => (
           <LegendItem
             key={index}
-            color={COLORS[index % COLORS.length]}
+            color={slice.color || COLORS[index % COLORS.length]}
             label={slice.name}
           />
         ))}

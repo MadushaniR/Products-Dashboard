@@ -67,7 +67,7 @@ export default function ColumnChart({ data, category, legendColor }) {
                 y={y}
                 width={barWidth}
                 height={barHeight}
-                fill={item.color || COLORS[index % COLORS.length]} // ✅ Use passed color
+                fill={item.color || COLORS[index % COLORS.length]} //use passed color
                 rx={2}
               />
               <text
@@ -91,14 +91,6 @@ export default function ColumnChart({ data, category, legendColor }) {
           );
         })}
       </svg>
-
-      {/* <HStack mt={2} alignItems="center">
-        <Circle size="10px" bg={legendColor} />
-        <Text fontSize="sm" style={{ color:'gray.600' }}>
-          Price
-        </Text>
-      </HStack> */}
-
     </Box>
   );
 }
