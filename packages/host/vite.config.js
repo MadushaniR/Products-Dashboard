@@ -10,7 +10,14 @@ export default defineConfig({
       remotes: {
         remoteApp: 'http://localhost:5001/assets/remoteEntry.js',
       },
-      shared: ['react', 'react-dom'],
+      shared: [
+    'react',
+    'react-dom',
+    '@chakra-ui/react',
+    '@emotion/react',
+    '@emotion/styled',
+    'framer-motion'
+  ],
     }),
     {
       name: 'vite-plugin-reload-endpoint',
